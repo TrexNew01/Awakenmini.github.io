@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faction Home - Telegram Mini App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="home-container">
+        <button id="back-btn" class="back-btn">← Back</button>
+        <h1 id="faction-title">Faction Home</h1>
+        <img id="faction-image" src="" alt="Faction Image" class="faction-image">
+        <p id="faction-desc">Welcome to your faction!</p>
+    </div>
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const faction = urlParams.get('faction') || 'Unknown';
+        document.getElementById('faction-title').textContent = faction + ' Home';
+        
+        // Local images for Ring faction
+        let imgSrc = '';
+        if (faction === 'Ring') {
+            imgSrc = 'Ring image/gaot.PNG'; // Primary Ring image
+        } else {
+            // Fallback for other factions
+            imgSrc = 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=400&h=300&fit=crop';
+        }
+        document.getElementById('faction-image').src = imgSrc;
+        document.getElementById('faction-image').alt = faction + ' image';
+
+        document.getElementById('back-btn').addEventListener('click', () => {
+            tg.HapticFeedback.impactOccurred('light');
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
