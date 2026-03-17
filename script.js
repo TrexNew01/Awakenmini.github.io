@@ -26,7 +26,11 @@ document.querySelectorAll('.faction-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         const faction = btn.dataset.faction;
         tg.HapticFeedback.impactOccurred('light');
-        window.location.href = `home.html?faction=${encodeURIComponent(faction)}`;
+        if (faction === 'Diamond list') {
+            window.location.href = 'Diamond.html';
+        } else {
+            window.location.href = `home.html?faction=${encodeURIComponent(faction)}`;
+        }
         // Optional: tg.sendData(`faction:${faction}`);
     });
 });
