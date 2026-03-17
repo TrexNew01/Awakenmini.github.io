@@ -1,0 +1,15 @@
+-- SQLite DB for factions/images
+CREATE TABLE IF NOT EXISTS factions (
+  id INTEGER PRIMARY KEY,
+  name TEXT UNIQUE,
+  emoji TEXT,
+  desc TEXT,
+  image_path TEXT
+);
+
+INSERT OR IGNORE INTO factions (name, emoji, desc, image_path) VALUES
+('Ring', '💍', 'Ring Faction', 'Ring image/gaot.PNG'),
+('Rebels', '🚀', 'Rebels Faction', 'default.jpg'),
+('Alliance', '🤝', 'Alliance Faction', 'default.jpg'),
+('Syndicate', '💰', 'Syndicate Faction', 'default.jpg'),
+('Order', '⚔️', 'Order Faction', 'default.jpg');
