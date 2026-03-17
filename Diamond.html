@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DM-T | Diamond Price List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-gold: #d4af37;
+            --primary-gold-light: #f4d03f;
+            --primary-gold-dark: #b8860b;
+            --dark-bg: #0a0a0f;
+            --dark-secondary: #12121a;
+            --dark-tertiary: #1a1a2e;
+            --text-light: #f5f5f5;
+            --text-muted: #a0a0a0;
+            --success-green: #27ae60;
+            --danger-red: #e74c3c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--dark-bg);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(184, 134, 11, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0f0f1a 100%);
+            z-index: -1;
+            animation: bgPulse 10s ease-in-out infinite;
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 950px;
+            background: linear-gradient(145deg, rgba(26, 26, 46, 0.95) 0%, rgba(18, 18, 26, 0.98) 100%);
+            border-radius: 24px;
+            box-shadow: 
+                0 25px 80px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(212, 175, 55, 0.15),
+                0 0 60px rgba(212, 175, 55, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            animation: containerFadeIn 0.8s ease-out;
+        }
+
+        @keyframes containerFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-gold-dark) 0%, var(--primary-gold) 30%, var(--primary-gold-light) 50%, var(--primary-gold) 70%, var(--primary-gold-dark) 100%);
+            padding: 35px 30px;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: headerShine 3s ease-in-out infinite;
+        }
+
+        @keyframes headerShine {
+            0% { left: -100%; }
+            50%, 100% { left: 100%; }
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+        }
+
+        .header__icon {
+            font-size: 42px;
+            display: block;
+            margin-bottom: 10px;
+            animation: iconBounce 2s ease-in-out infinite;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        @keyframes iconBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .header__title {
+            color: #1a1a2e;
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header__subtitle {
+            color: #1a1a2e;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 8px;
+            margin-top: 8px;
+            text-transform: uppercase;
+            opacity: 0.85;
+        }
+
+        .controls {
+            background: linear-gradient(180deg, var(--dark-secondary) 0%, var(--dark-tertiary) 100%);
+            padding: 24px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .controls__top {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .search-wrapper {
+            flex: 1;
+            min-width: 240px;
+            position: relative;
+        }
+
+        .search-wrapper i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-gold);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .search-wrapper input {
+            width: 100%;
+            padding: 14px 16px 14px 48px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .search-wrapper input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-wrapper input:focus {
+            border-color: var(--primary-gold);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+
+        .filter-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .filter-wrapper label {
+            color: var(--primary-gold);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .filter-wrapper select {
+            padding: 14px 36px 14px 16px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+            font-size: 13px;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            outline: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23d4af37' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            transition: all 0.4s ease;
+        }
+
+        .filter-wrapper select:hover,
+        .filter-wrapper select:focus {
+            border-color: var(--primary-gold);
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .filter-wrapper select option {
+            background: var(--dark-secondary);
+            color: var(--text-light);
+        }
+
+        .results-info {
+            color: var(--text-muted);
+            font-size: 12px;
+            padding: 12px 0 0;
+            text-align: center;
+            width: 100%;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-gold) var(--dark-secondary);
+        }
+
+        .table-wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .table-wrapper::-webkit-scrollbar-track {
+            background: var(--dark-secondary);
+        }
+
+        .table-wrapper::-webkit-scrollbar-thumb {
+            background: var(--primary-gold);
+            border-radius: 3px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .table thead {
+            background: linear-gradient(180deg, var(--dark-secondary) 0%, var(--dark-tertiary) 100%);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .table th {
+            color: var(--primary-gold);
+            padding: 18px 24px;
+            text-align: left;
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid var(--primary-gold);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        .table th:hover {
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--primary-gold-light);
+        }
+
+        .table th:nth-child(2),
+        .table th:nth-child(3) { 
+            text-align: right; 
+        }
+
+        .table th .sort-icon {
+            margin-left: 8px;
+            opacity: 0.4;
+            font-size: 10px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .table th.sorted .sort-icon {
+            opacity: 1;
+            color: var(--primary-gold-light);
+        }
+
+        .table th.sorted.desc .sort-icon {
+            transform: rotate(180deg);
+        }
+
+        .table td {
+            padding: 16px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .table tbody tr {
+            background: rgba(26, 26, 46, 0.5);
+            animation: rowFadeIn 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes rowFadeIn {
+            to { opacity: 1; }
+        }
+
+        .table tbody tr:nth-child(odd) {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .table tbody tr:hover {
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.03) 100%);
+            transform: scale(1.005);
+        }
+
+        .table tbody tr.hidden {
+            display: none;
+        }
+
+        .col--size {
+            font-weight: 500;
+            color: var(--text-light);
+            position: relative;
+            padding-left: 20px !important;
+        }
+
+        .col--size::before {
+            content: '♦';
+            position: absolute;
+            left: 0;
+            color: var(--primary-gold);
+            font-size: 10px;
+        }
+
+        .col--usd {
+            font-weight: 700;
+            color: var(--success-green);
+            text-align: right;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .col--khr {
+            font-weight: 600;
+            color: #e67e22;
+            text-align: right;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .footer {
+            background: linear-gradient(180deg, var(--dark-secondary) 0%, var(--dark-bg) 100%);
+            padding: 24px;
+            text-align: center;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .footer__text {
+            color: var(--primary-gold);
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .footer__tagline {
+            color: var(--text-muted);
+            font-size: 10px;
+            letter-spacing: 4px;
+            margin-top: 6px;
+            text-transform: uppercase;
+        }
+
+        .footer__buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 11px;
+            border-radius: 10px;
+        }
+
+        .btn--view {
+            background: linear-gradient(135deg, var(--primary-gold-dark) 0%, var(--primary-gold) 50%, var(--primary-gold-dark) 100%);
+            color: #1a1a2e;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn--view:hover {
+            background: linear-gradient(135deg, var(--primary-gold) 0%, var(--primary-gold-light) 50%, var(--primary-gold) 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.5);
+        }
+
+        .btn--telegram {
+            background: linear-gradient(135deg, #1da1f2 0%, #0d8ecf 100%);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(29, 161, 242, 0.3);
+        }
+
+        .btn--telegram:hover {
+            background: linear-gradient(135deg, #0d8ecf 0%, #1da1f2 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(29, 161, 242, 0.5);
+        }
+
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary-gold-dark) 0%, var(--primary-gold) 100%);
+            border: none;
+            border-radius: 50%;
+            color: #1a1a2e;
+            font-size: 18px;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+            z-index: 100;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .header__title { font-size: 24px; letter-spacing: 2px; }
+            .header__subtitle { font-size: 9px; letter-spacing: 4px; }
+            .controls__top { flex-direction: column; }
+            .search-wrapper { width: 100%; }
+            .filter-wrapper { width: 100%; justify-content: center; }
+            .table th, .table td { padding: 12px 16px; font-size: 13px; }
+            .footer__buttons { flex-direction: column; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header" onclick="scrollToTop()">
+            <span class="header__icon">💎</span>
+            <h1 class="header__title">Diamond Round</h1>
+            <p class="header__subtitle">Price List 2026</p>
+        </header>
+        
+        <div class="controls">
+            <div class="controls__top">
+                <div class="search-wrapper">
+                    <input type="text" id="searchInput" placeholder="Search size (e.g. 3.0)..." oninput="filterTable()">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="filter-wrapper">
+                    <label>USD:</label>
+                    <select id="priceFilter" onchange="filterTable()">
+                        <option value="all">All Prices</option>
+                        <option value="0-50">$0 - $50</option>
+                        <option value="50-200">$50 - $200</option>
+                        <option value="200-500">$200 - $500</option>
+                        <option value="500-1000">$500 - $1,000</option>
+                        <option value="1000+">$1,000+</option>
+                    </select>
+                </div>
+            </div>
+            <div class="results-info" id="resultsInfo">
+                <i class="fas fa-gem" style="margin-right: 8px;"></i>
+                Showing all 33 diamonds
+            </div>
+        </div>
+        
+        <div class="table-wrapper">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">Size <span class="sort-icon">▲</span></th>
+                        <th onclick="sortTable(1)">USD <span class="sort-icon">▲</span></th>
+                        <th onclick="sortTable(2)">KHR ៛ <span class="sort-icon">▲</span></th>
+                    </tr>
+                </thead>
+                <tbody id="diamondTableBody">
+                    <tr data-size="1.2" data-usd="10" data-khr="41000" style="animation-delay: 0.05s"><td class="col--size">1.2 លី</td><td class="col--usd">$10.00</td><td class="col--khr">៛41,000</td></tr>
+                    <tr data-size="1.3" data-usd="11" data-khr="45100" style="animation-delay: 0.1s"><td class="col--size">1.3 លី</td><td class="col--usd">$11.00</td><td class="col--khr">៛45,100</td></tr>
+                    <tr data-size="1.4" data-usd="12" data-khr="49200" style="animation-delay: 0.15s"><td class="col--size">1.4 លី</td><td class="col--usd">$12.00</td><td class="col--khr">៛49,200</td></tr>
+                    <tr data-size="1.6" data-usd="13" data-khr="53300" style="animation-delay: 0.2s"><td class="col--size">1.6 លី</td><td class="col--usd">$13.00</td><td class="col--khr">៛53,300</td></tr>
+                    <tr data-size="1.7" data-usd="15" data-khr="61500" style="animation-delay: 0.25s"><td class="col--size">1.7 លី</td><td class="col--usd">$15.00</td><td class="col--khr">៛61,500</td></tr>
+                    <tr data-size="1.8" data-usd="19" data-khr="77900" style="animation-delay: 0.3s"><td class="col--size">1.8 លី</td><td class="col--usd">$19.00</td><td class="col--khr">៛77,900</td></tr>
+                    <tr data-size="1.9" data-usd="25" data-khr="102500" style="animation-delay: 0.35s"><td class="col--size">1.9 លី</td><td class="col--usd">$25.00</td><td class="col--khr">៛102,500</td></tr>
+                    <tr data-size="2.1" data-usd="29" data-khr="118900" style="animation-delay: 0.4s"><td class="col--size">2.1 លី</td><td class="col--usd">$29.00</td><td class="col--khr">៛118,900</td></tr>
+                    <tr data-size="2.2" data-usd="35" data-khr="143500" style="animation-delay: 0.45s"><td class="col--size">2.2 លី</td><td class="col--usd">$35.00</td><td class="col--khr">៛143,500</td></tr>
+                    <tr data-size="2.3" data-usd="45" data-khr="184500" style="animation-delay: 0.5s"><td class="col--size">2.3 លី</td><td class="col--usd">$45.00</td><td class="col--khr">៛184,500</td></tr>
+                    <tr data-size="2.4" data-usd="55" data-khr="225500" style="animation-delay: 0.55s"><td class="col--size">2.4 លី</td><td class="col--usd">$55.00</td><td class="col--khr">៛225,500</td></tr>
+                    <tr data-size="2.6" data-usd="59" data-khr="241900" style="animation-delay: 0.6s"><td class="col--size">2.6 លី</td><td class="col--usd">$59.00</td><td class="col--khr">៛241,900</td></tr>
+                    <tr data-size="2.7" data-usd="69" data-khr="282900" style="animation-delay: 0.65s"><td class="col--size">2.7 លី</td><td class="col--usd">$69.00</td><td class="col--khr">៛282,900</td></tr>
+                    <tr data-size="2.8" data-usd="90" data-khr="369000" style="animation-delay: 0.7s"><td class="col--size">2.8 លី</td><td class="col--usd">$90.00</td><td class="col--khr">៛369,000</td></tr>
+                    <tr data-size="2.9" data-usd="125" data-khr="512500" style="animation-delay: 0.75s"><td class="col--size">2.9 លី</td><td class="col--usd">$125.00</td><td class="col--khr">៛512,500</td></tr>
+                    <tr data-size="3.1" data-usd="140" data-khr="574000" style="animation-delay: 0.8s"><td class="col--size">3.1 លី</td><td class="col--usd">$140.00</td><td class="col--khr">៛574,000</td></tr>
+                    <tr data-size="3.2" data-usd="160" data-khr="656000" style="animation-delay: 0.85s"><td class="col--size">3.2 លី</td><td class="col--usd">$160.00</td><td class="col--khr">៛656,000</td></tr>
+                    <tr data-size="3.3" data-usd="180" data-khr="738000" style="animation-delay: 0.9s"><td class="col--size">3.3 លី</td><td class="col--usd">$180.00</td><td class="col--khr">៛738,000</td></tr>
+                    <tr data-size="3.4" data-usd="220" data-khr="902000" style="animation-delay: 0.95s"><td class="col--size">3.4 លី</td><td class="col--usd">$220.00</td><td class="col--khr">៛902,000</td></tr>
+                    <tr data-size="3.6" data-usd="260" data-khr="1066000" style="animation-delay: 1s"><td class="col--size">3.6 លី</td><td class="col--usd">$260.00</td><td class="col--khr">៛1,066,000</td></tr>
+                    <tr data-size="3.7" data-usd="280" data-khr="1148000" style="animation-delay: 1.05s"><td class="col--size">3.7 លី</td><td class="col--usd">$280.00</td><td class="col--khr">៛1,148,000</td></tr>
+                    <tr data-size="3.8" data-usd="330" data-khr="1353000" style="animation-delay: 1.1s"><td class="col--size">3.8 លី</td><td class="col--usd">$330.00</td><td class="col--khr">៛1,353,000</td></tr>
+                    <tr data-size="3.9" data-usd="400" data-khr="1640000" style="animation-delay: 1.15s"><td class="col--size">3.9 លី</td><td class="col--usd">$400.00</td><td class="col--khr">៛1,640,000</td></tr>
+                    <tr data-size="4.1" data-usd="480" data-khr="1968000" style="animation-delay: 1.2s"><td class="col--size">4.1 លី</td><td class="col--usd">$480.00</td><td class="col--khr">៛1,968,000</td></tr>
+                    <tr data-size="4.2" data-usd="520" data-khr="2132000" style="animation-delay: 1.25s"><td class="col--size">4.2 លី</td><td class="col--usd">$520.00</td><td class="col--khr">៛2,132,000</td></tr>
+                    <tr data-size="4.3" data-usd="580" data-khr="2378000" style="animation-delay: 1.3s"><td class="col--size">4.3 លី</td><td class="col--usd">$580.00</td><td class="col--khr">៛2,378,000</td></tr>
+                    <tr data-size="4.4" data-usd="800" data-khr="3280000" style="animation-delay: 1.35s"><td class="col--size">4.4 លី</td><td class="col--usd">$800.00</td><td class="col--khr">៛3,280,000</td></tr>
+                    <tr data-size="4.6" data-usd="900" data-khr="3690000" style="animation-delay: 1.4s"><td class="col--size">4.6 លី</td><td class="col--usd">$900.00</td><td class="col--khr">៛3,690,000</td></tr>
+                    <tr data-size="4.7" data-usd="980" data-khr="4018000" style="animation-delay: 1.45s"><td class="col--size">4.7 លី</td><td class="col--usd">$980.00</td><td class="col--khr">៛4,018,000</td></tr>
+                    <tr data-size="4.8" data-usd="1200" data-khr="4920000" style="animation-delay: 1.5s"><td class="col--size">4.8 លី</td><td class="col--usd">$1,200.00</td><td class="col--khr">៛4,920,000</td></tr>
+                    <tr data-size="4.9" data-usd="1400" data-khr="5740000" style="animation-delay: 1.55s"><td class="col--size">4.9 លី</td><td class="col--usd">$1,400.00</td><td class="col--khr">៛5,740,000</td></tr>
+                    <tr data-size="5.1" data-usd="1900" data-khr="7790000" style="animation-delay: 1.6s"><td class="col--size">5.1 លី</td><td class="col--usd">$1,900.00</td><td class="col--khr">៛7,790,000</td></tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <footer class="footer">
+            <p class="footer__text">DM-T 2026</p>
+            <p class="footer__tagline">Premium Quality • Exceptional Value</p>
+            <div class="footer__buttons">
+                <a href="https://t.me/IIIemperorIII" target="_blank" class="btn btn--telegram">
+                    <i class="fab fa-telegram"></i> Contact
+                </a>
+                <a href="mobile-app.html" class="btn btn--view">
+                    <i class="fas fa-mobile-alt"></i> Mobile App
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <button class="scroll-top" id="scrollTop" onclick="scrollToTop()">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+    
+    <script>
+        let sortColumn = null;
+        let sortDirection = 'asc';
+
+        function filterTable() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const priceFilter = document.getElementById('priceFilter').value;
+            const rows = document.querySelectorAll('#diamondTableBody tr');
+            let visibleCount = 0;
+
+            rows.forEach((row, index) => {
+                const usd = parseFloat(row.getAttribute('data-usd'));
+                const sizeText = row.querySelector('.col--size').textContent.toLowerCase();
+                
+                const matchesSearch = searchTerm === '' || sizeText.includes(searchTerm);
+                
+                let matchesPrice = true;
+                if (priceFilter !== 'all') {
+                    if (priceFilter === '1000+') {
+                        matchesPrice = usd >= 1000;
+                    } else {
+                        const [min, max] = priceFilter.split('-').map(Number);
+                        matchesPrice = usd >= min && usd <= max;
+                    }
+                }
+
+                if (matchesSearch && matchesPrice) {
+                    row.classList.remove('hidden');
+                    row.style.animationDelay = `${visibleCount * 0.03}s`;
+                    visibleCount++;
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+
+            const totalCount = rows.length;
+            const icon = '<i class="fas fa-gem" style="margin-right: 8px;"></i>';
+            const infoText = visibleCount === totalCount 
+                ? `${icon} Showing all ${totalCount} diamonds` 
+                : `${icon} Showing ${visibleCount} of ${totalCount} diamonds`;
+            document.getElementById('resultsInfo').innerHTML = infoText;
+        }
+
+        function sortTable(columnIndex) {
+            const rows = Array.from(document.querySelectorAll('#diamondTableBody tr'));
+            const headers = document.querySelectorAll('.table th');
+            
+            if (sortColumn === columnIndex) {
+                sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortColumn = columnIndex;
+                sortDirection = 'asc';
+            }
+
+            headers.forEach((header, i) => {
+                header.classList.remove('sorted', 'desc');
+                if (i === columnIndex) {
+                    header.classList.add('sorted');
+                    if (sortDirection === 'desc') {
+                        header.classList.add('desc');
+                    }
+                }
+            });
+
+            rows.sort((a, b) => {
+                let valueA, valueB;
+                
+                if (columnIndex === 0) {
+                    valueA = parseFloat(a.getAttribute('data-size'));
+                    valueB = parseFloat(b.getAttribute('data-size'));
+                } else if (columnIndex === 1) {
+                    valueA = parseFloat(a.getAttribute('data-usd'));
+                    valueB = parseFloat(b.getAttribute('data-usd'));
+                } else {
+                    valueA = parseFloat(a.getAttribute('data-khr'));
+                    valueB = parseFloat(b.getAttribute('data-khr'));
+                }
+
+                return sortDirection === 'asc' ? valueA - valueB : valueB - valueA;
+            });
+
+            const tbody = document.getElementById('diamondTableBody');
+            rows.forEach((row, index) => {
+                row.style.animationDelay = `${index * 0.02}s`;
+                tbody.appendChild(row);
+            });
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.addEventListener('scroll', () => {
+            const scrollTopBtn = document.getElementById('scrollTop');
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const rows = document.querySelectorAll('#diamondTableBody tr');
+            rows.forEach((row, index) => {
+                row.style.animationDelay = `${index * 0.03}s`;
+            });
+        });
+    </script>
+</body>
+</html>
