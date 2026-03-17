@@ -13,17 +13,25 @@
     <div class="home-container">
         <button id="back-btn" class="back-btn">← Back</button>
 
-        <h1 id="faction-title">Ring Faction Pinterest Pro ✨</h1>
+
+        <h1 id="faction-title">Ring My Projects ✨</h1>
+
         <div id="image-counter" class="image-counter">0 / 12</div>
         <div id="faction-gallery" class="pinterest-gallery"></div>
         <p id="faction-desc">Premium 3D assets & scans. Click to zoom & share! 💎</p>
         
+
         <!-- Lightbox Modal -->
         <div id="lightbox" class="lightbox">
             <span id="lightbox-close">&times;</span>
             <img id="lightbox-img" src="">
             <div id="lightbox-caption"></div>
+            <div class="lightbox-nav">
+                <button id="prev-btn" class="nav-btn">⭯</button>
+                <button id="next-btn" class="nav-btn">⭭</button>
+            </div>
         </div>
+
     </div>
 
 
@@ -112,17 +120,62 @@
             tg.HapticFeedback.impactOccurred('light');
         }
 
+
         lightboxClose.addEventListener('click', closeLightbox);
         lightbox.addEventListener('click', (e) => {
             if (e.target === lightbox) closeLightbox();
         });
+
+        // Navigation buttons
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        function updateNavButtons() {
+            prevBtn.disabled = currentImageIndex === 0;
+            nextBtn.disabled = currentImageIndex === ringImages.length - 1;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentImageIndex > 0) {
+                currentImageIndex--;
+                updateCounter();
+                updateNavButtons();
+                openLightbox(ringImages[currentImageIndex], `Ring Premium Asset #${currentImageIndex + 1}`);
+                tg.HapticFeedback.impactOccurred('light');
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentImageIndex < ringImages.length - 1) {
+                currentImageIndex++;
+                updateCounter();
+                updateNavButtons();
+                openLightbox(ringImages[currentImageIndex], `Ring Premium Asset #${currentImageIndex + 1}`);
+                tg.HapticFeedback.impactOccurred('light');
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'ArrowLeft') prevBtn.click();
+                else if (e.key === 'ArrowRight') nextBtn.click();
+                else if (e.key === 'Escape') closeLightbox();
+            }
+        });
+
+        // Initial nav state (will be updated on first open)
+        updateNavButtons();
+
 
         // Keyboard support
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeLightbox();
         });
 
-        document.getElementById('faction-desc').innerHTML = `Ring Faction Pinterest Pro (${ringImages.length} premium images) <br> Click to zoom, ESC to close 💎✨`;
+
+        document.getElementById('faction-desc').innerHTML = `Ring My Projects (${ringImages.length} premium images) <br> Click to zoom & swipe, ESC to close 💎✨`;
+
 
         tg.HapticFeedback.impactOccurred('heavy');
 
