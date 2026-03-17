@@ -273,6 +273,56 @@ p {
     box-shadow: 0 10px 32px rgba(212, 175, 55, 0.5);
 }
 
+
+
+.pinterest-gallery {
+    column-count: 2;
+    column-gap: 16px;
+    padding: 20px;
+}
+
+.pinterest-gallery .gallery-img {
+    break-inside: avoid;
+    margin-bottom: 16px;
+    width: 100%;
+    border-radius: 20px;
+    box-shadow: 
+        0 12px 40px rgba(0,0,0,0.4),
+        0 0 0 1px rgba(212, 175, 55, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.pinterest-gallery .gallery-img:hover {
+    transform: scale(1.02);
+    box-shadow: 
+        0 20px 60px rgba(212, 175, 55, 0.4);
+}
+
+
+.faction-gallery::-webkit-scrollbar {
+    display: none;
+}
+
+.gallery-img {
+    flex: 0 0 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 
+        0 12px 40px rgba(0,0,0,0.4),
+        0 0 0 1px rgba(212, 175, 55, 0.3);
+    scroll-snap-align: start;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.gallery-img:hover {
+    transform: scale(1.05);
+    box-shadow: 
+        0 20px 60px rgba(212, 175, 55, 0.4);
+}
+
 .faction-image {
     max-width: 100%;
     height: 280px;
@@ -291,6 +341,7 @@ p {
         0 30px 80px rgba(0,0,0,0.5),
         0 0 0 1px rgba(212, 175, 55, 0.5);
 }
+
 
 #faction-desc {
     font-size: 18px;
@@ -319,6 +370,136 @@ p {
     }
 }
 
+
+/* Chat Overlay Styles */
+.chat-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 10, 15, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    animation: overlaySlide 0.3s ease;
+}
+
+@keyframes overlaySlide {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-header {
+    background: linear-gradient(135deg, var(--primary-gold-dark), var(--primary-gold));
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #1a1a2e;
+    font-weight: 600;
+}
+
+#chat-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #1a1a2e;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.3s;
+}
+
+#chat-close:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.message {
+    padding: 12px 16px;
+    border-radius: 18px;
+    max-width: 80%;
+    word-wrap: break-word;
+    font-size: 15px;
+}
+
+.user-message {
+    align-self: flex-end;
+    background: linear-gradient(135deg, var(--primary-gold), var(--primary-gold-light));
+    color: #1a1a2e;
+}
+
+.bot-message {
+    align-self: flex-start;
+    background: rgba(212, 175, 55, 0.15);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    color: var(--text-light);
+}
+
+.chat-input-container {
+    padding: 20px;
+    display: flex;
+    gap: 12px;
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    background: rgba(26, 26, 46, 0.5);
+}
+
+#chat-input {
+    flex: 1;
+    padding: 14px 18px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 25px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-light);
+    font-size: 16px;
+    backdrop-filter: blur(10px);
+}
+
+#chat-input::placeholder {
+    color: var(--text-muted);
+}
+
+#chat-send {
+    background: linear-gradient(135deg, var(--primary-gold-dark), var(--primary-gold));
+    color: #1a1a2e;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+#chat-send:hover {
+    transform: scale(1.05);
+}
+
+/* Responsive for chat */
+@media (max-width: 480px) {
+    .chat-overlay {
+        padding: 10px;
+    }
+    .chat-messages {
+        padding: 10px;
+    }
+}
+
 /* Telegram WebApp Theme Support */
 @media (prefers-color-scheme: dark) {
     :root {
@@ -328,3 +509,4 @@ p {
         --tg-button-text: #1a1a2e;
     }
 }
+

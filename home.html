@@ -8,12 +8,16 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <div class="home-container">
         <button id="back-btn" class="back-btn">← Back</button>
-        <h1 id="faction-title">Faction Home</h1>
-        <img id="faction-image" src="" alt="Faction Image" class="faction-image">
-        <p id="faction-desc">Welcome to your faction!</p>
+
+        <h1 id="faction-title">Ring Faction Pinterest</h1>
+        <div id="faction-gallery" class="pinterest-gallery"></div>
+        <p id="faction-desc">Premium 3D assets & scans. Scroll & explore! 💎</p>
     </div>
+
+
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready();
@@ -23,16 +27,43 @@
         const faction = urlParams.get('faction') || 'Unknown';
         document.getElementById('faction-title').textContent = faction + ' Home';
         
-        // Local images for Ring faction
-        let imgSrc = '';
+
+
+        // Ring faction - scrollable gallery
+        const ringImages = [
+            'Ring image/BPR_Composite.jpg',
+            'Ring image/gaot.PNG',
+            'Ring image/gaot2.PNG',
+            'Ring image/0fe69f6adb941cf677cb3d26ed9b521f.jpg',
+            'Ring image/1e00017b0982b040690c9941b1fcc40e.jpg'
+        ];
+
         if (faction === 'Ring') {
-            imgSrc = 'Ring image/gaot.PNG'; // Primary Ring image
+            const gallery = document.getElementById('faction-gallery');
+            ringImages.forEach((imgSrc, index) => {
+                const imgContainer = document.createElement('div');
+                imgContainer.className = 'img-container';
+                const img = document.createElement('img');
+                img.src = imgSrc;
+                img.alt = `Ring image ${index + 1}`;
+                img.className = 'gallery-img';
+                img.style.height = (180 + Math.random() * 120) + 'px'; // Random heights for Pinterest
+                imgContainer.appendChild(img);
+                gallery.appendChild(imgContainer);
+            });
+            document.getElementById('faction-desc').innerHTML = `Ring Faction Pinterest (${ringImages.length} images) <br> Premium 3D assets & scans 💎`;
+            tg.HapticFeedback.impactOccurred('heavy');
         } else {
-            // Fallback for other factions
-            imgSrc = 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=400&h=300&fit=crop';
+
+            const img = document.createElement('img');
+            img.src = 'https://images.unsplash.com/photo-1541701494587-cb58502866ab?w=400&h=300&fit=crop';
+            img.alt = faction + ' image';
+            img.className = 'faction-image';
+            document.getElementById('faction-gallery').appendChild(img);
+            document.getElementById('faction-desc').textContent = 'Welcome to ' + faction + '!';
         }
-        document.getElementById('faction-image').src = imgSrc;
-        document.getElementById('faction-image').alt = faction + ' image';
+
+
 
         document.getElementById('back-btn').addEventListener('click', () => {
             tg.HapticFeedback.impactOccurred('light');
