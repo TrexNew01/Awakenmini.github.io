@@ -29,14 +29,23 @@
         
 
 
-        // Ring faction - scrollable gallery
+
+        // Ring faction - Pinterest gallery with new images
         const ringImages = [
+            'Ring image/Ring1.jpg',
+            'Ring image/Ring2.jpg',
+            'Ring image/Ring3.jpg',
+            'Ring image/Ring4.jpg',
+            'Ring image/Ring5.jpg',
+            'Ring image/Ring6.jpg',
+            'Ring image/Ring7.jpg',
+            'Ring image/Ring8.jpg',
+            'Ring image/Ring9.jpg',
             'Ring image/BPR_Composite.jpg',
             'Ring image/gaot.PNG',
-            'Ring image/gaot2.PNG',
-            'Ring image/0fe69f6adb941cf677cb3d26ed9b521f.jpg',
-            'Ring image/1e00017b0982b040690c9941b1fcc40e.jpg'
+            'Ring image/gaot2.PNG'
         ];
+
 
         if (faction === 'Ring') {
             const gallery = document.getElementById('faction-gallery');
@@ -51,7 +60,9 @@
                 imgContainer.appendChild(img);
                 gallery.appendChild(imgContainer);
             });
-            document.getElementById('faction-desc').innerHTML = `Ring Faction Pinterest (${ringImages.length} images) <br> Premium 3D assets & scans 💎`;
+
+            document.getElementById('faction-desc').innerHTML = `Ring Faction Pinterest (${ringImages.length} premium images) <br> Updated with new Ring image collection 💎✨`;
+
             tg.HapticFeedback.impactOccurred('heavy');
         } else {
 
