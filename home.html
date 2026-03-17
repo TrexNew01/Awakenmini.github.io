@@ -9,13 +9,31 @@
 </head>
 <body>
 
+
     <div class="home-container">
         <button id="back-btn" class="back-btn">← Back</button>
 
-        <h1 id="faction-title">Ring Faction Pinterest</h1>
+
+        <h1 id="faction-title">Ring My Projects ✨</h1>
+
+        <div id="image-counter" class="image-counter">0 / 12</div>
         <div id="faction-gallery" class="pinterest-gallery"></div>
-        <p id="faction-desc">Premium 3D assets & scans. Scroll & explore! 💎</p>
+        <p id="faction-desc">Premium 3D assets & scans. Click to zoom & share! 💎</p>
+        
+
+        <!-- Lightbox Modal -->
+        <div id="lightbox" class="lightbox">
+            <span id="lightbox-close">&times;</span>
+            <img id="lightbox-img" src="">
+            <div id="lightbox-caption"></div>
+            <div class="lightbox-nav">
+                <button id="prev-btn" class="nav-btn">⭯</button>
+                <button id="next-btn" class="nav-btn">⭭</button>
+            </div>
+        </div>
+
     </div>
+
 
 
     <script>
@@ -29,30 +47,138 @@
         
 
 
-        // Ring faction - scrollable gallery
+
+        // Ring faction - Pinterest gallery with new images
         const ringImages = [
+            'Ring image/Ring1.jpg',
+            'Ring image/Ring2.jpg',
+            'Ring image/Ring3.jpg',
+            'Ring image/Ring4.jpg',
+            'Ring image/Ring5.jpg',
+            'Ring image/Ring6.jpg',
+            'Ring image/Ring7.jpg',
+            'Ring image/Ring8.jpg',
+            'Ring image/Ring9.jpg',
             'Ring image/BPR_Composite.jpg',
             'Ring image/gaot.PNG',
-            'Ring image/gaot2.PNG',
-            'Ring image/0fe69f6adb941cf677cb3d26ed9b521f.jpg',
-            'Ring image/1e00017b0982b040690c9941b1fcc40e.jpg'
+            'Ring image/gaot2.PNG'
         ];
+
 
         if (faction === 'Ring') {
             const gallery = document.getElementById('faction-gallery');
-            ringImages.forEach((imgSrc, index) => {
-                const imgContainer = document.createElement('div');
-                imgContainer.className = 'img-container';
-                const img = document.createElement('img');
-                img.src = imgSrc;
-                img.alt = `Ring image ${index + 1}`;
-                img.className = 'gallery-img';
-                img.style.height = (180 + Math.random() * 120) + 'px'; // Random heights for Pinterest
-                imgContainer.appendChild(img);
-                gallery.appendChild(imgContainer);
+
+        // Shuffle images for fresh experience
+        ringImages.sort(() => Math.random() - 0.5);
+        
+        const counter = document.getElementById('image-counter');
+        let currentImageIndex = 0;
+        
+        ringImages.forEach((imgSrc, index) => {
+            const imgContainer = document.createElement('div');
+            imgContainer.className = 'img-container';
+            const img = document.createElement('img');
+            img.src = imgSrc;
+            img.alt = `Ring Premium Asset #${index + 1}`;
+            img.title = `Ring Asset #${index + 1}`;
+            img.className = 'gallery-img';
+            img.style.height = (200 + Math.random() * 140) + 'px';
+            img.dataset.index = index;
+            imgContainer.appendChild(img);
+            gallery.appendChild(imgContainer);
+            
+            // Click to open lightbox
+            img.addEventListener('click', () => {
+                tg.HapticFeedback.impactOccurred('medium');
+                currentImageIndex = index;
+                updateCounter();
+                openLightbox(imgSrc, `Ring Premium Asset #${index + 1}`);
             });
-            document.getElementById('faction-desc').innerHTML = `Ring Faction Pinterest (${ringImages.length} images) <br> Premium 3D assets & scans 💎`;
-            tg.HapticFeedback.impactOccurred('heavy');
+        });
+        
+        function updateCounter() {
+            counter.textContent = `${currentImageIndex + 1} / ${ringImages.length}`;
+        }
+
+
+
+        // Lightbox functions
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+        const lightboxClose = document.getElementById('lightbox-close');
+
+        function openLightbox(src, caption) {
+            lightboxImg.src = src;
+            lightboxCaption.textContent = caption;
+            lightbox.classList.add('active');
+            tg.expand();
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            tg.HapticFeedback.impactOccurred('light');
+        }
+
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        // Navigation buttons
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        function updateNavButtons() {
+            prevBtn.disabled = currentImageIndex === 0;
+            nextBtn.disabled = currentImageIndex === ringImages.length - 1;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentImageIndex > 0) {
+                currentImageIndex--;
+                updateCounter();
+                updateNavButtons();
+                openLightbox(ringImages[currentImageIndex], `Ring Premium Asset #${currentImageIndex + 1}`);
+                tg.HapticFeedback.impactOccurred('light');
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentImageIndex < ringImages.length - 1) {
+                currentImageIndex++;
+                updateCounter();
+                updateNavButtons();
+                openLightbox(ringImages[currentImageIndex], `Ring Premium Asset #${currentImageIndex + 1}`);
+                tg.HapticFeedback.impactOccurred('light');
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'ArrowLeft') prevBtn.click();
+                else if (e.key === 'ArrowRight') nextBtn.click();
+                else if (e.key === 'Escape') closeLightbox();
+            }
+        });
+
+        // Initial nav state (will be updated on first open)
+        updateNavButtons();
+
+
+        // Keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+
+        document.getElementById('faction-desc').innerHTML = `Ring My Projects (${ringImages.length} premium images) <br> Click to zoom & swipe, ESC to close 💎✨`;
+
+
+        tg.HapticFeedback.impactOccurred('heavy');
+
         } else {
 
             const img = document.createElement('img');
